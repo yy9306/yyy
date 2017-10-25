@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <title></title>
+    <style media="screen" link="reset.css"></style>
+  </head>
+
+  <style media="screen">
+    .box{
+      width: 100%;
+      height: 300px;
+    }
+    .box a{
+      color: blue;
+      text-decoration: none;
+    }
+    .b-shadow{
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.2);
+      display: none;
+    }
+    .diolag{
+      width: 80%;
+      height: 200px;
+      border: 1px solid red;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto;
+      background: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+    .group {
+      position: absolute;
+      bottom: 10px;
+      left: 45%
+    }
+    .award{
+      text-align: center;
+    }
+  </style>
+  <script>
+      var _hmt = _hmt || [];
+      (function () {
+          var hm = document.createElement("script");
+          hm.src = "https://hm.baidu.com/hm.js?d69321757dcfbfbe09dbddd4dca87b28";
+          var s = document.getElementsByTagName("script")[0];
+          s.parentNode.insertBefore(hm, s);
+      })();
+  </script>
+  <body>
+    <div class="" style="width:100%">
+      <div class="box">
+         <a href="javascript:;">点击抽奖</a>
+      </div>
+      <div class="b-shadow">
+        <div class="diolag" >
+          <p class="award">你获得的奖品是iphone8</p>
+          <button onclick="call('wechatTimeline')" class="group">分享朋友圈</button>
+        </div>
+      </div>
+    </div>
+
+
+
+   <script type="text/javascript" src="NativeShare.js"></script>
+   <script src="https://cdn.bootcss.com/jquery/2.0.0/jquery.min.js"></script>
+  </body>
+
+  <script type="text/javascript">
+
+     var initState = false
+
+     $('.box').on('click', function() {
+       var random = Math.floor(Math.random() * 3)
+       render(random)
+       $('.b-shadow').css('display', 'block')
+        setTimeout(function(){
+          $('.box').hide()
+          $('.b-shadow').hide()
+        }, 8000)
+      //  var username = localStorage.username
+      //  if(initState) {
+      //    if(username) {
+      //      $('.box').hide()
+      //      $('.b-shadow').hide()
+      //    }
+      //  }
+     })
+
+    //  $('.group').on('click') {
+    //    $('.box').hide()
+    //    $('.b-shadow').hide()
+    //  }
+
+     function render(num) {
+       if(num === 0) {
+         $('.award').html('你的奖品是iphone')
+         saveLocation('username', $('.award').text())
+       }else if(num == 1) {
+         $('.award').html('你的奖品是小米')
+         saveLocation('username', $('.award').text())
+       }else {
+         $('.award').html('你的奖品是华为')
+         saveLocation('username', $('.award').text())
+       }
+     }
+
+     function saveLocation(username, brand) {
+       if(localStorage.username) {
+         localStorage.clear()
+       }else{
+         localStorage.setItem(username, brand)
+         initState = true
+       }
+     }
+
+     var username = localStorage.username
+     if(initState) {
+       if(username) {
+         $('.box').hide()
+         $('.b-shadow').hide()
+       }
+     }
+     var nativeShare = new NativeShare()
+     var shareData = {
+         title: '有料信息科技',
+         desc: '有料信息科技是一家电商平台',
+         // 如果是微信该link的域名必须要在微信后台配置的安全域名之内的。
+         link: 'https://yy9306.github.io/content/',
+         icon: 'https://pic3.zhimg.com/v2-080267af84aa0e97c66d5f12e311c3d6_xl.jpg',
+         // 不要过于依赖以下两个回调，很多浏览器是不支持的
+         // success: function() {
+         //     alert('success')
+         // },
+         // fail: function() {
+         //     alert('fail')
+         // }
+     }
+
+     nativeShare.setShareData(shareData)
+
+     function call(command) {
+         try {
+             nativeShare.call(command)
+         } catch (err) {
+             // 如果不支持，你可以在这里做降级处理
+             alert('浏览器不支持，请换别的浏览器')
+         }
+     }
+  </script>
+</html>
